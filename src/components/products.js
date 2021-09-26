@@ -5,37 +5,32 @@ import { Card, Row, Col } from 'react-bootstrap'
 import './profucts.css'
 
 const Status = props => {
-    console.log(props.categoryState.data)
+    console.log(props.categoryState.dataa)
     return (
         <Row>
-            {props.categoryState.data.products.map(ele => {
-                if (ele.category === props.categoryState.data.activeCategory)
+            {props.categoryState.dataa.products.map(data => {
+                if (data.category === props.categoryState.dataa.activeCategory)
                     return (
-
                         <Col className="cardMinu" sm={4}>
-                            <Card key={ele.name} style={{ backgroundColor:"pink", borderRadius:"5%" ,borderColor:"black" , borderBlockStyle:"solid"}} >
+                            <Card key={data.name} style={{ backgroundColor:"pink", borderRadius:"5%" ,borderColor:"black" , borderBlockStyle:"solid"}} >
                                 <div className="col-12  col-lg-3 " >
                                     
-                                    <Card.Img style={{ width: '225px'  , height:'255px' , marginLeft:"100px", marginTop:"12px"}} variant="top" src={`${ele.image}`} />
+                                    <Card.Img style={{ width: '225px'  , height:'255px' , marginLeft:"100px", marginTop:"12px"}} variant="top" src={`${data.image}`} />
                                     <Card.Body style={{width:"300px" }} >
-                                    <Card.Title>Product Name : {ele.name} </Card.Title>
+                                    <Card.Title>Product Name : {data.name} </Card.Title>
                                         <Card.Text>
-                                            Price : {ele.price}
+                                            Price : {data.price}
                                         </Card.Text>
                                         <Card.Text>
-                                        In Stock : {ele.inStock}
+                                        In Stock : {data.inStock}
                                         </Card.Text>
                                        
                                     </Card.Body>
                                 </div>
                             </Card>
                         </Col>
-
-
-                    )
-            }
+                    )}
             )}
-
         </Row>
     )
 }

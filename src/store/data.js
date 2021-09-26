@@ -29,18 +29,23 @@ const initialState = {
         { name: 'watermelon', category: 'food', price: 3.9, inStock: 100,
         image:'https://freepngimg.com/thumb/watermelon/2-2-watermelon-free-download-png.png' },
         { name: 'Tomato', category: 'food', price: 3.9, inStock: 100,
-        image:'https://lh3.googleusercontent.com/proxy/qJmaSPyLBgExI9pp3juCvrjif7ridkR7r6zW6OB2hT0reB_wU83OzdJh0KUeq6GnHBY94Jtgax09b36YUIHFI6F9KWtxXHK_qTLP0acW9KaRlgEUxU3B2A' },
+        image:'https://www.freepnglogos.com/uploads/tomato-png/fresh-red-tomato-png-image-png-transparent-best-photos-40.png' },
    
     ],
     activeCategory: 'electronics',
   };
   
-  export default (state = initialState, action) => {
+export default (state = initialState, action) => {
     let { type, payload } = action;
     switch (type) {
         case "catigories":
-            if (payload.toLowerCase() == "electronics" || payload.toLowerCase() == "clothing" || payload.toLowerCase() == "food")
-                return { ...state, activeCategory: payload }; 
+            if (payload.toLowerCase() == "electronics" || payload.toLowerCase() == "clothing"
+             || payload.toLowerCase() == "food")
+            {
+              console.log('=============',state,"===========",payload);
+              return {...state, activeCategory: payload }; 
+            }
+                
         default:
             return {...state};
     }
@@ -48,7 +53,6 @@ const initialState = {
 }
   
 export const sendActiveCat = (activeCategory) => {
-    console.log("activecaaaat >>>>", activeCategory)
     return {
         // this object will be passed to the reducer 
         type: "catigories",
