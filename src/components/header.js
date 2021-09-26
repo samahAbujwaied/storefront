@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar,Nav , Container } from 'react-bootstrap';
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import { sendActiveCat } from "../store/data";
