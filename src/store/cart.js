@@ -5,19 +5,22 @@ let initialState = {
 };
 
 export default (state = initialState, action) => {
+    console.log('totalItems  5555555555555555555    ',state.items);
     let { type, payload } = action;
     switch (type) {
 
         case "add":
-            let newItem = { name: payload, quantity: 1 };
+            let newItem = { name: payload.name, quantity: 1,stock:payload.stock-1 };
+            console.log('newItem------------',newItem);
             if (state.items.length == 0) {
                 state.items.push(newItem);
                 state.totalItems++;
             }
             else {
                 let stateItem = state.items.reduce((acc, item) => {
-                    if (item.name === payload) {
+                    if (item.name === payload.name) {
                         item.quantity++;
+                        item.stock--;
                         state.totalItems++;
                         acc = true;
                         return acc;
@@ -25,7 +28,8 @@ export default (state = initialState, action) => {
                     return acc;
                 }, false)
                 if (!stateItem) {
-                    state.items.push({ name: payload, quantity: 1 });
+                   
+                    state.items.push({ name: payload.name, quantity: 1 ,state:payload.stock-1 });
                     state.totalItems++;
                 }
             }
@@ -55,10 +59,15 @@ export default (state = initialState, action) => {
 }
 
 
-export const addItem = (item) => {
+export const addItem = (item,stock) => {
+    let data = {
+        name:item,
+        stock:stock
+
+    }
     return {
         type: "add",
-        payload: item
+        payload: data
     }
 }
 

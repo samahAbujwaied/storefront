@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Row, Col ,Button } from 'react-bootstrap'
 import './profucts.css'
-import { addItem } from "../store/cart"
+import * as actions from "../store/actions";
+// import { addItem } from "../store/cart"
 
 const Status = props => {
     console.log(props.categoryState.dataa)
@@ -25,7 +26,7 @@ const Status = props => {
                                         <Card.Text>
                                             In Stock : {data.inStock}
                                         </Card.Text>
-                                        <Button variant="dark" color="primary" onClick={() => props.addItem(data.name)}> Add to Cart</Button>
+                                        <Button variant="dark" color="primary" onClick={() => props.addItem(data.name,data.inStock)}> Add to Cart</Button>
                                         &nbsp;
                                         <Button variant="dark" color="primary" >View Details</Button>
                                     </Card.Body>
@@ -43,5 +44,11 @@ const Status = props => {
 const mapStateToProps = state => ({
     categoryState: state
 });
-const mapDispatchToProps = { addItem }
+// const mapDispatchToProps = { addItem }
+
+const mapDispatchToProps =  (dispatch, getState) => ({
+    addItem :(addItemFromCard)=>dispatch(actions.addItem(addItemFromCard)),
+  })
+
+
 export default connect(mapStateToProps,mapDispatchToProps)(Status);
