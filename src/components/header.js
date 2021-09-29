@@ -13,16 +13,13 @@ import Button from '@restart/ui/esm/Button';
 // import { removeItem } from '../store/cart';
 import * as actions from "../store/actions";
 
-const Status = props => {
-  console.log('mapStateToProps---', props.categoryState);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  console.log('props.categoryState.card',  props.categoryState.card.items.quantity);
-  
 
-  console.log(props.categoryState)
+const Status = props => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
     useEffect(async () => {
         await props.get()
-    }, [''])
+    },props.updateCardData)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,8 +45,9 @@ const Status = props => {
             {props.categoryState.dataa.categories.map(data =>
             (<Nav.Link variant="contained" color="secondary"
             onClick={() => props.changeActiveCategory(data.name)}
-              id={data.name} key={data.name}> {data.displayName} </Nav.Link >))}
+              id={data.name} key={data.name}>  {data.displayName} </Nav.Link >))}
           </Nav>
+        
           <IconButton aria-label="cart" onClick={handleClick}>
             <StyledBadge badgeContent={props.categoryState.card.totalItems} color="secondary">
               <ShoppingCartIcon />
@@ -65,9 +63,10 @@ const Status = props => {
           >
             {props.categoryState.card.items.map(data => {
               return <MenuItem style={{ width: 200 }} onClick={handleClose} id={data.name} key={data.name}>{data.name} quantity :  {data.quantity} <Button variant="danger" 
-              onClick={()=>props.remove(data.name)}
+             
+              onClick={()=>props.remove(props.categoryState.dataa.products.filter((item)=>item.name==data.name ) )}
                style={{backgroundColor:"red" , borderRadius :"100%" , color:"white" ,  marginLeft:"12px"}}
-                > X </Button>
+                >   X </Button>
               
               
                </MenuItem >
@@ -89,7 +88,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps =  (dispatch, getState) => ({
   get: (activeCategory) => dispatch(actions.getRemoteData(activeCategory)),
-  remove :(removeFromCard)=>dispatch(actions.removeItem(removeFromCard)),
+  remove :(removeFromCard)=>dispatch(actions.removeCardData(removeFromCard)),
   changeActiveCategory: (activeCategory) => dispatch(actions.changeActiveCategory(activeCategory)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Status);
