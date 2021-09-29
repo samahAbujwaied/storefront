@@ -1,17 +1,17 @@
-
+import superagent from 'superagent';
 let initialState = {
     items: [],
     totalItems: 0
 };
+const apiProds = 'https://appstore-a.herokuapp.com/products';
+const apiCats = 'https://appstore-a.herokuapp.com/categories';
 
 export default (state = initialState, action) => {
-    console.log('totalItems  5555555555555555555    ',state.items);
     let { type, payload } = action;
     switch (type) {
 
         case "add":
-            let newItem = { name: payload.name, quantity: 1,stock:payload.stock-1 };
-            console.log('newItem------------',newItem);
+            let newItem = { name: payload.name, quantity: 1}; 
             if (state.items.length == 0) {
                 state.items.push(newItem);
                 state.totalItems++;
@@ -28,8 +28,8 @@ export default (state = initialState, action) => {
                     return acc;
                 }, false)
                 if (!stateItem) {
-                   
-                    state.items.push({ name: payload.name, quantity: 1 ,state:payload.stock-1 });
+
+                    state.items.push({ name: payload.name, quantity: 1, state: payload.stock - 1 });
                     state.totalItems++;
                 }
             }
@@ -37,8 +37,9 @@ export default (state = initialState, action) => {
             return { ...state }
 
         case "remove":
+            console.log('remoooooooooov',payload);
             for (let i = 0; i < state.items.length; i++) {
-                if (state.items[i].name == payload) {
+                if (state.items[i].name == payload.name) {
                     if (state.items[i].quantity > 1)
                         state.items[i].quantity--;
                     else if (state.items[i].quantity == 1) {
@@ -58,28 +59,26 @@ export default (state = initialState, action) => {
 
 }
 
+export const updateCardData = (activeCategory) => (dispatch) => {
 
-export const addItem = (item,stock) => {
-    let data = {
-        name:item,
-        stock:stock
+    let body = {
+        name:activeCategory.name,
+        category:activeCategory.category,
+        price:activeCategory.price,
+        inStock: activeCategory.inStock - 1,
+        image:activeCategory.image
+    };
 
-    }
-    return {
-        type: "add",
-        payload: data
-    }
+     superagent.put(`${apiProds}/${activeCategory.id}`)
+     .send(body)
+     .then((results) => {dispatch(addItem(results.body)); });
+
 }
 
-export const removeItem = (item) => {
+export const addItem = (item) => {
     return {
-        type: "remove",
+        type: "add",
         payload: item
     }
 }
 
-export const resetCart = () => {
-    return {
-        type: "reset",
-    }
-}
